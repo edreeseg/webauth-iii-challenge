@@ -4,10 +4,10 @@ import { Register, Login, UserList } from './components';
 import './App.css';
 
 class App extends Component {
-  componentDidMount(){
-    console.log(process.env);
-    const token = JSON.parse(localStorage.getItem('users-token'));
-    if (!token) this.props.history.push('/signup');
+  componentDidMount() {
+    const token = localStorage.getItem('user-token');
+    console.log(token);
+    if (!token) this.props.history.push('/signin');
     else this.props.history.push('/users');
   }
   render() {
