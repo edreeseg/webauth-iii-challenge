@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function Login(){ // Better to use class component when dealing with many controlled inputs?
@@ -7,6 +8,7 @@ export default function Login(){ // Better to use class component when dealing w
     const [error, setError] = useState(null);
     const handleLogin = ev => {
         ev.preventDefault();
+        if (!username || !password) return setError('Please fill out all fields.');
         const user = { username, password };
         axios.post('http://localhost:5000/api/login', user)
             .then(res => console.log(res))
@@ -14,21 +16,32 @@ export default function Login(){ // Better to use class component when dealing w
         setUsername('');
         setPassword('');
     }
+    const handleChange = ev => {
+        setError(null);
+        if (ev.target.name === 'username') setUsername(ev.target.value);
+        else setPassword(ev.target.value);
+    }
     return (
-        <form onSubmit={handleLogin}>
-            <input 
-                type="text"
-                placeholder="Username"
-                onChange={ev => setUsername(ev.target.value)}
-                value={username}
-            />
-            <input 
-                type="password"
-                placeholder="Password"
-                onChange={ev => setPassword(ev.target.value)}
-                value={password}
-            />
-            <button>Login</button>
-        </form>
+        <>
+            {error ? <span>{error}</span> : null}
+            <form onSubmit={handleLogin}>
+                <input 
+                    type="text"
+                    placeholder="Username"
+                    name="username"
+                    onChange={handleChange}
+                    value={username}
+                />
+                <input 
+                    type="password"
+                    placeholder="Password"
+                    name="password"
+                    onChange={handleChange}
+                    value={password}
+                />
+                <button>Sign In</button>
+                <Link to="/signup">Not a user yet?  Click here to sign up!</Link>
+            </form>
+        </>
     );
 }
