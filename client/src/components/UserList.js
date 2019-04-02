@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import User from './User';
 
 export default class UserList extends React.Component {
     constructor(props){
