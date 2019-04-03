@@ -29,7 +29,7 @@ function verifyUser(user){
                 .where({ username })
                 .first();
             if (!entry) reject(null);
-            if (bcrypt.compareSync(password, entry.password)) resolve(entry.id);
+            if (bcrypt.compareSync(password, entry.password)) resolve(entry);
             else reject(null);
         } catch(err) {
             reject(err);

@@ -12,6 +12,9 @@ exports.up = function(knex, Promise) {
     tbl
         .string('department')
         .notNullable();
+    tbl
+        .timestamp('createdAt')
+        .defaultTo(knex.fn.now());
   });
 };
 

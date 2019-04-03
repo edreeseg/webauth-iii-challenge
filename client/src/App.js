@@ -6,7 +6,6 @@ import './App.css';
 class App extends Component {
   componentDidMount() {
     const token = localStorage.getItem('user-token');
-    console.log(token);
     if (!token) this.props.history.push('/signin');
     else this.props.history.push('/users');
   }
