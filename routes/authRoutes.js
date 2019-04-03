@@ -20,7 +20,7 @@ router.post('/api/register', (req, res) => {
     user.password = hash;
     addUser(user)
         .then(id => {
-            const token = generateToken(user);
+            const token = generateToken({ id, ...user }); // Add ID to payload
             res.status(201).json({ token });
         })
         .catch(error => {
@@ -38,7 +38,8 @@ router.post('/api/login', (req, res) => {
     verifyUser(credentials)
         .then(user => {
             if(user){
-                const token = generateToken(user);
+                const { createdAt, ...userWithoutTimestamp } = user;
+                const token = generateToken(userWithoutTimestamp);
                 res.json({ token });
             } else res.status(401).json({ error: 'You shall not pass!' });
         })

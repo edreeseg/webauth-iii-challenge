@@ -15,15 +15,16 @@ function checkForToken(req, res, next){
     }
 }
 
-router.get('/api/users', checkForToken, (req, res) => {
-    jwt.verify(req.token, jwtSecret, (err, authData) => {
-        if (err) res.status(403).json({ error: 'Please register or sign in.' });
-        else {
-            getUsers()
-                .then(users => res.json({ users }))
-                .catch(error => res.status(500).json({ error: error.message }));
-        }
-    })
+router.get('/api/users', checkForToken, async (req, res) => {
+    try {
+        await jwt.verify(req.token, jwtSecret); // Will throw an error and move to catch block if signature isn't valid.
+        getUsers()
+            .then(users => res.json({ users }))
+            .catch(error => res.status(500).json({ error: error.message }));
+    } catch(error){
+        console.log(error);
+        res.status(403).json({ error: 'Please register or sign in.' });
+    }
 });
 
 module.exports = router;
