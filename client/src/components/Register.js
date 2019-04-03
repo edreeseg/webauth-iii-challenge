@@ -9,11 +9,11 @@ export default class Register extends React.Component {
       username: '',
       password: '',
       department: '',
-      error: null,
     };
   }
   handleChange = ev => {
-    this.setState({ [ev.target.name]: ev.target.value, error: null });
+    this.props.displayError(null);
+    this.setState({ [ev.target.name]: ev.target.value });
   };
   createInput = (name, type = 'text') => {
     let placeholder = name.replace(/[A-Z]/g, char => ' ' + char);
@@ -32,7 +32,7 @@ export default class Register extends React.Component {
     ev.preventDefault();
     const { username, password, department } = this.state;
     if (!username || !password || !department)
-      return this.setState({ error: 'Please fill out all fields.' });
+      return this.props.displayError('Please fill out all fields.');
     const user = { username, password, department };
     this.setState({ username: '', password: '', department: '' });
     axios
@@ -41,20 +41,17 @@ export default class Register extends React.Component {
         localStorage.setItem('user-token', res.data.token);
         this.props.history.push('/users');
       })
-      .catch(msg => this.setState({ error: msg.error }));
+      .catch(msg => this.props.displayError(msg.response ? msg.response.data.error : 'There was an error while attempting registration.'));
   };
   render() {
     return (
-      <>
-        {this.state.error ? <span>{this.state.error}</span> : null}
-        <form onSubmit={this.handleRegister}>
-          {this.createInput('username')}
-          {this.createInput('password', 'password')}
-          {this.createInput('department')}
-          <button>Sign Up</button>
-          <Link to="/signin">Already a user? Click here to login!</Link>
-        </form>
-      </>
+      <form onSubmit={this.handleRegister}>
+        {this.createInput('username')}
+        {this.createInput('password', 'password')}
+        {this.createInput('department')}
+        <button>Sign Up</button>
+        <Link to="/signin">Already a user? Click here to login!</Link>
+      </form>
     );
   }
 }

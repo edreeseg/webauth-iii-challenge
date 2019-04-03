@@ -4,17 +4,27 @@ import { Register, Login, UserList } from './components';
 import './App.css';
 
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      error: null,
+    };
+  }
   componentDidMount() {
     const token = localStorage.getItem('user-token');
     if (!token) this.props.history.push('/signin');
     else this.props.history.push('/users');
   }
+  displayError = (msg) => {
+    this.setState({ error: msg});
+  }
   render() {
     return (
       <div className="App">
-        <Route path="/signup" component={Register} />
-        <Route path="/signin" component={Login} />
-        <Route path="/users" component={UserList} />
+        {this.state.error ? <span className="error">{this.state.error}</span> : null}
+        <Route path="/signup" render={props => <Register {...props} displayError={this.displayError} />} />
+        <Route path="/signin" render={props => <Login {...props} displayError={this.displayError} />} />
+        <Route path="/users" render={props => <UserList {...props} displayError={this.displayError} />} />
       </div>
     );
   }

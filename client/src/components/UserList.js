@@ -20,7 +20,10 @@ export default class UserList extends React.Component {
     axios
       .get('http://localhost:3030/api/users', config)
       .then(res => this.setState({ users: res.data.users }))
-      .catch(error => this.props.history.push('/signin'));
+      .catch(msg => {
+        this.props.displayError(msg.response ? msg.response.data.error : 'There was an error while retrieving users.');
+        this.props.history.push('/signin');
+      });
   }
   handleLogout = ev => {
     localStorage.removeItem('user-token');
