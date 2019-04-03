@@ -7,6 +7,7 @@ module.exports = {
     addUser,
     getUsers,
     verifyUser,
+    getUsersByDept
 };
 
 function addUser(user){
@@ -49,4 +50,19 @@ function getUsers(){
             reject(err);
         }
     });
+}
+
+function getUsersByDept(department){
+    return new Promise(async (resolve, reject) => {
+        try {
+            const users = await db('users')
+                .where({ department });
+            resolve(users.map(entry => {
+                const { password, ...other } = entry; // Remove password for security reasons
+                return other;
+            }));
+        } catch(err) {
+            reject(err);
+        }
+    })
 }

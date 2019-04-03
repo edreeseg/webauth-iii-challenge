@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('../config/secrets');
-const { getUsers } = require('../data/helpers');
+const { getUsers, getUsersByDept } = require('../data/helpers');
 
 function checkForToken(req, res, next){
     const bearerHeader = req.headers.authorization;
@@ -17,8 +17,8 @@ function checkForToken(req, res, next){
 
 router.get('/api/users', checkForToken, async (req, res) => {
     try {
-        await jwt.verify(req.token, jwtSecret); // Will throw an error and move to catch block if signature isn't valid.
-        getUsers()
+        const payload = await jwt.verify(req.token, jwtSecret); // Will throw an error and move to catch block if signature isn't valid.
+        getUsersByDept(payload.department)
             .then(users => res.json({ users }))
             .catch(error => res.status(500).json({ error: error.message }));
     } catch(error){
