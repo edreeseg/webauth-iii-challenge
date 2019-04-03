@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../config/secrets');
-const { getUsers, getUsersByDept } = require('../data/helpers');
+const { jwtSecret } = require('../../config/secrets');
+const { getUsers, getUsersByDept } = require('../../data/helpers');
 
 function checkForToken(req, res, next){
     const bearerHeader = req.headers.authorization;

@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../config/secrets');
-const { addUser, verifyUser } = require('../data/helpers');
+const { jwtSecret } = require('../../config/secrets');
+const { addUser, verifyUser } = require('../../data/helpers');
 
 function generateToken(user){
     const { password, ...payload } = user;
