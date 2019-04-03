@@ -1,16 +1,13 @@
 const express = require('express');
 const server = express();
-const cors = require('cors');
-const helmet = require('helmet');
+const configureMiddleware = require('./middleware');
 
-server.use(cors());
-server.use(helmet());
-server.use(express.json());
+configureMiddleware(server);
 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-server.use('/', authRoutes);
-server.use('/', userRoutes);
+server.use('/api', authRoutes);
+server.use('/api', userRoutes);
 
 module.exports = server;

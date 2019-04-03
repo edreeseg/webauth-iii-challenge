@@ -21,7 +21,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        {this.state.error ? <span className="error">{this.state.error}</span> : null}
+        {this.state.error ? <span className="error" onClick={ev => this.setState({ error: null })}>{this.state.error}</span> : null}
         <Route path="/signup" render={props => <Register {...props} displayError={this.displayError} />} />
         <Route path="/signin" render={props => <Login {...props} displayError={this.displayError} />} />
         <Route path="/users" render={props => <UserList {...props} displayError={this.displayError} />} />

@@ -1,17 +1,9 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../../config/secrets');
 const { addUser, verifyUser } = require('../../data/helpers');
+const { generateToken } = require('../token-handlers');
 
-function generateToken(user){
-    const { password, ...payload } = user;
-    const options = { expiresIn: '1d' };
-    return jwt.sign(payload, jwtSecret, options);
-}
-
-router.post('/api/register', (req, res) => {
+router.post('/register', (req, res) => {
     const { username, password, department } = req.body;
     if (!username || !password || !department) 
         return res.status(400).json({ error: 'Request must include values for username, password, and department keys.' });
@@ -29,7 +21,7 @@ router.post('/api/register', (req, res) => {
         });
 });
 
-router.post('/api/login', (req, res) => {
+router.post('/login', (req, res) => {
     const { username, password } = req.body;
     if (!username || !password) // Checking for correct user info and returning a 400 error if not.
         return res.status(400).json({ error: 'Request must includes values for username and password keys.' });

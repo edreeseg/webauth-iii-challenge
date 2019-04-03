@@ -1,28 +1,16 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('../../config/secrets');
 const { getUsers, getUsersByDept } = require('../../data/helpers');
+const { checkForToken, verifyToken } = require('../token-handlers');
 
-function checkForToken(req, res, next){
-    const bearerHeader = req.headers.authorization;
-    if (typeof bearerHeader !== 'undefined'){
-        const token = bearerHeader.split(' ')[1];
-        req.token = token;
-        next();
-    } else {
-        res.status(401).json({ error: 'Please register or sign in.' });
-    }
-}
-
-router.get('/api/users', checkForToken, async (req, res) => {
+router.get('/users', checkForToken, async (req, res) => {
     try {
-        const payload = await jwt.verify(req.token, jwtSecret); // Will throw an error and move to catch block if signature isn't valid.
+        const payload = await verifyToken(req.token); // Will throw an error and move to catch block if signature isn't valid.
         getUsersByDept(payload.department)
             .then(users => res.json({ users }))
             .catch(error => res.status(500).json({ error: error.message }));
     } catch(error){
-        console.log(error);
         res.status(403).json({ error: 'Please register or sign in.' });
     }
 });
