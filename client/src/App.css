@@ -1,0 +1,21 @@
+.users-list {
+  position: relative;
+}
+.logout {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.error {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: block;
+  border: 1px solid black;
+  padding: 10px;
+  color: red;
+  font-size: 24px;
+  cursor: pointer;
+  user-select: none;
+}
