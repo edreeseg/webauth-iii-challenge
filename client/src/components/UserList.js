@@ -26,6 +26,11 @@ class UserList extends React.Component {
   render() {
     return (
       <ul className="users-list">
+        <li class="labels">
+          <p>ID</p>
+          <p>Username</p>
+          <p>Department</p>
+        </li>
         {this.state.users.map(user => (
           <User key={user.id} {...user} />
         ))}

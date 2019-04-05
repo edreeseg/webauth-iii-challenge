@@ -45,7 +45,7 @@ export default class Register extends React.Component {
   };
   render() {
     return (
-      <form onSubmit={this.handleRegister}>
+      <form onSubmit={this.handleRegister} className="auth register">
         {this.createInput('username')}
         {this.createInput('password', 'password')}
         {this.createInput('department')}

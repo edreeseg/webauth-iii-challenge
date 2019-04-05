@@ -43,3 +43,40 @@ button:focus {
   cursor: pointer;
   user-select: none;
 }
+.auth {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 25%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  border: 1px solid #222;
+  padding: 40px 10px;
+  background: lightgray;
+}
+.auth > * {
+  margin-bottom: 5px;
+}
+.users-list {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  margin: 0 auto;
+  border: 1px solid #222;
+}
+.user, .labels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style-type: none;
+}
+.labels {
+  font-weight: bold;
+}
+.user > *, .labels > * {
+  width: 33.3%;
+  width: calc(100% / 3);
+  text-align: center;
+}
