@@ -26,7 +26,7 @@ export default function Login(props) {
     else setPassword(ev.target.value);
   };
   return (
-    <form onSubmit={handleLogin}>
+    <form onSubmit={handleLogin} className="auth login">
       <input
         type="text"
         placeholder="Username"

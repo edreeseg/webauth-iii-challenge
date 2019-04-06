@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
-import { Register, Login, UserList } from './components';
+import { Register, Login, UserList, NavBar } from './components';
 import './App.css';
 
 class App extends Component {
@@ -22,6 +22,7 @@ class App extends Component {
     return (
       <div className="App">
         {this.state.error ? <span className="error" onClick={ev => this.setState({ error: null })}>{this.state.error}</span> : null}
+        <Route path="/" component={NavBar} />
         <Route path="/signup" render={props => <Register {...props} displayError={this.displayError} />} />
         <Route path="/signin" render={props => <Login {...props} displayError={this.displayError} />} />
         <Route path="/users" render={props => <UserList {...props} displayError={this.displayError} />} />
